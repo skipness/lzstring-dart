@@ -12,5 +12,5 @@ For more usage, please read the exapmle in [example](https://github.com/skipness
 
 ## Running test
 ```
-pub run test test/lz_string_test.dart
+pub run test test/lz_string.dart
 ```
