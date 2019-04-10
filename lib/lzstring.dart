@@ -29,13 +29,10 @@ class LZString {
     return _baseReverseDic[alphabet][character];
   }
 
-  /**
-   * Produces ASCII UTF-16 strings representing the original string encoded in Base64 from [input].
-   * 
-   * Can be decompressed with `decompressFromBase64`. 
-   * 
-   * This works by using only 6bits of storage per character. The strings produced are therefore 166% bigger than those produced by `compress`.
-   */
+  /// Produces ASCII UTF-16 strings representing the original string encoded in Base64 from [input].
+  /// Can be decompressed with `decompressFromBase64`.
+  ///
+  /// This works by using only 6bits of storage per character. The strings produced are therefore 166% bigger than those produced by `compress`.
   static String compressToBase64(String input) {
     if (input == null) return "";
     String res = _compress(input, 6, (a) => _keyStrBase64[a]);
@@ -52,9 +49,7 @@ class LZString {
     return null;
   }
 
-  /**
-   * Decompress base64 [input] which produces by `compressToBase64`.
-   */
+  /// Decompress base64 [input] which produces by `compressToBase64`.
   static String decompressFromBase64(String input) {
     if (input == null) return "";
     if (input == "") return null;
@@ -62,21 +57,17 @@ class LZString {
         (index) => _getBaseValue(_keyStrBase64, input[index]));
   }
 
-  /**
-   * Produces "valid" UTF-16 strings from [input].
-   * 
-   * Can be decompressed with `decompressFromUTF16`. 
-   * 
-   * This works by using only 15 bits of storage per character. The strings produced are therefore 6.66% bigger than those produced by `compress`.
-   */
+  /// Produces "valid" UTF-16 strings from [input].
+  ///
+  /// Can be decompressed with `decompressFromUTF16`.
+  ///
+  /// This works by using only 15 bits of storage per character. The strings produced are therefore 6.66% bigger than those produced by `compress`.
   static String compressToUTF16(String input) {
     if (input == null) return "";
     return _compress(input, 15, (a) => String.fromCharCode(a + 32)) + " ";
   }
 
-  /**
-   * Decompress "valid" UTF-16 string which produces by `compressToUTF16`
-   */
+  /// Decompress "valid" UTF-16 string which produces by `compressToUTF16`
   static String decompressFromUTF16(String compressed) {
     if (compressed == null) return "";
     if (compressed == "") return null;
@@ -84,11 +75,9 @@ class LZString {
         compressed.length, 16384, (index) => compressed.codeUnitAt(index) - 32);
   }
 
-  /**
-   * Produces an uint8Array.
-   * 
-   * Can be decompressed with `decompressFromUint8Array`
-   */
+  /// Produces an uint8Array.
+  ///
+  /// Can be decompressed with `decompressFromUint8Array`
   static Uint8List compressToUint8Array(String uncompressed) {
     String compressed = compress(uncompressed);
     Uint8List buf = Uint8List(compressed.length * 2);
@@ -100,9 +89,7 @@ class LZString {
     return buf;
   }
 
-  /**
-   * Decompress uint8Array which produces by `compressToUint8Array`.
-   */
+  /// Decompress uint8Array which produces by `compressToUint8Array`.
   static String decompressFromUint8Array(Uint8List compressed) {
     if (compressed == null) {
       return "";
@@ -117,9 +104,7 @@ class LZString {
     }
   }
 
-  /**
-   * Decompress ASCII strings [input] which produces by `compressToEncodedURIComponent`.
-   */
+  /// Decompress ASCII strings [input] which produces by `compressToEncodedURIComponent`.
   static String decompressFromEncodedURIComponent(String input) {
     if (input == null) return "";
     if (input == "") return null;
@@ -128,21 +113,18 @@ class LZString {
         (index) => _getBaseValue(_keyStrUriSafe, input[index]));
   }
 
-  /**
-   * Produces ASCII strings representing the original string encoded in Base64 with a few tweaks to make these URI safe.
-   * 
-   * Can be decompressed with `decompressFromEncodedURIComponent`
-   */
+  /// Produces ASCII strings representing the original string encoded in Base64 with a few tweaks to make these URI safe.
+  ///
+  /// Can be decompressed with `decompressFromEncodedURIComponent`
   static String compressToEncodedURIComponent(String input) {
     if (input == null) return "";
     return _compress(input, 6, (a) => _keyStrUriSafe[a]);
   }
 
-  /**
-   * Produces invalid UTF-16 strings from [uncompressed].
-   * 
-   * Can be decompressed with `decompress`.
-   */
+  /// Produces invalid UTF-16 strings from [uncompressed].
+  ///
+  /// Can be decompressed with `decompress`.
+  ///
   static String compress(final String uncompressed) {
     return _compress(uncompressed, 16, (a) => String.fromCharCode(a));
   }
