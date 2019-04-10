@@ -6,9 +6,9 @@ import 'dart:typed_data';
 typedef String GetCharFromInt(int a);
 typedef int GetNextValue(int index);
 
-class Data {
+class _Data {
   int value, position, index;
-  Data(this.value, this.position, this.index);
+  _Data(this.value, this.position, this.index);
 }
 
 class LZString {
@@ -29,6 +29,13 @@ class LZString {
     return _baseReverseDic[alphabet][character];
   }
 
+  /**
+   * Produces ASCII UTF-16 strings representing the original string encoded in Base64 from [input].
+   * 
+   * Can be decompressed with `decompressFromBase64`. 
+   * 
+   * This works by using only 6bits of storage per character. The strings produced are therefore 166% bigger than those produced by `compress`.
+   */
   static String compressToBase64(String input) {
     if (input == null) return "";
     String res = _compress(input, 6, (a) => _keyStrBase64[a]);
@@ -45,6 +52,9 @@ class LZString {
     return null;
   }
 
+  /**
+   * Decompress base64 [input] which produces by `compressToBase64`.
+   */
   static String decompressFromBase64(String input) {
     if (input == null) return "";
     if (input == "") return null;
@@ -52,11 +62,21 @@ class LZString {
         (index) => _getBaseValue(_keyStrBase64, input[index]));
   }
 
+  /**
+   * Produces "valid" UTF-16 strings from [input].
+   * 
+   * Can be decompressed with `decompressFromUTF16`. 
+   * 
+   * This works by using only 15 bits of storage per character. The strings produced are therefore 6.66% bigger than those produced by `compress`.
+   */
   static String compressToUTF16(String input) {
     if (input == null) return "";
     return _compress(input, 15, (a) => String.fromCharCode(a + 32)) + " ";
   }
 
+  /**
+   * Decompress "valid" UTF-16 string which produces by `compressToUTF16`
+   */
   static String decompressFromUTF16(String compressed) {
     if (compressed == null) return "";
     if (compressed == "") return null;
@@ -64,6 +84,11 @@ class LZString {
         compressed.length, 16384, (index) => compressed.codeUnitAt(index) - 32);
   }
 
+  /**
+   * Produces an uint8Array.
+   * 
+   * Can be decompressed with `decompressFromUint8Array`
+   */
   static Uint8List compressToUint8Array(String uncompressed) {
     String compressed = compress(uncompressed);
     Uint8List buf = Uint8List(compressed.length * 2);
@@ -75,6 +100,9 @@ class LZString {
     return buf;
   }
 
+  /**
+   * Decompress uint8Array which produces by `compressToUint8Array`.
+   */
   static String decompressFromUint8Array(Uint8List compressed) {
     if (compressed == null) {
       return "";
@@ -89,6 +117,9 @@ class LZString {
     }
   }
 
+  /**
+   * Decompress ASCII strings [input] which produces by `compressToEncodedURIComponent`.
+   */
   static String decompressFromEncodedURIComponent(String input) {
     if (input == null) return "";
     if (input == "") return null;
@@ -97,11 +128,21 @@ class LZString {
         (index) => _getBaseValue(_keyStrUriSafe, input[index]));
   }
 
+  /**
+   * Produces ASCII strings representing the original string encoded in Base64 with a few tweaks to make these URI safe.
+   * 
+   * Can be decompressed with `decompressFromEncodedURIComponent`
+   */
   static String compressToEncodedURIComponent(String input) {
     if (input == null) return "";
     return _compress(input, 6, (a) => _keyStrUriSafe[a]);
   }
 
+  /**
+   * Produces invalid UTF-16 strings from [uncompressed].
+   * 
+   * Can be decompressed with `decompress`.
+   */
   static String compress(final String uncompressed) {
     return _compress(uncompressed, 16, (a) => String.fromCharCode(a));
   }
@@ -321,6 +362,9 @@ class LZString {
     return contextData.toString();
   }
 
+  /**
+   * Decompress invalid UTF-16 strings which produces by `compress`.
+   */
   static String decompress(final String compressed) {
     if (compressed == null) return "";
     if (compressed.isEmpty) return null;
@@ -342,7 +386,7 @@ class LZString {
         resb;
     String entry = "", c, w;
     StringBuffer result = StringBuffer();
-    Data data = Data(getNextValue(0), resetValue, 1);
+    _Data data = _Data(getNextValue(0), resetValue, 1);
 
     for (i = 0; i < 3; i++) {
       dictionary[i] = i.toString();
@@ -448,7 +492,7 @@ class LZString {
               data.position = resetValue;
               data.value = getNextValue(data.index++);
             }
-            bits |= (resb > 0 ? 1 : 0);
+            bits |= (resb > 0 ? 1 : 0) * power;
             power <<= 1;
           }
           dictionary[dictSize++] = String.fromCharCode(bits);
