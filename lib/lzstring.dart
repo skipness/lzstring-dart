@@ -344,9 +344,7 @@ class LZString {
     return contextData.toString();
   }
 
-  /**
-   * Decompress invalid UTF-16 strings which produces by `compress`.
-   */
+  /// Decompress invalid UTF-16 strings which produces by `compress`.
   static String decompress(final String compressed) {
     if (compressed == null) return "";
     if (compressed.isEmpty) return null;
