@@ -1,5 +1,5 @@
 # lzstring
-[![Pub](https://img.shields.io/badge/pub-v1.0.1%2B2-blue.svg)](https://pub.dartlang.org/packages/lzstring)
+[![Pub](https://img.shields.io/badge/pub-v1.0.2-blue.svg)](https://pub.dartlang.org/packages/lzstring)
 
 Dart implementation of lz-string compression algorithm
 
