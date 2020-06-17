@@ -367,7 +367,6 @@ class LZString {
           i,
           bits,
           maxpower,
-          next,
           power,
           resb;
       String entry = "", c, w;
@@ -392,7 +391,8 @@ class LZString {
         power <<= 1;
       }
 
-      switch (next = bits) {
+      int next = bits;
+      switch (next) {
         case 0:
           bits = 0;
           maxpower = pow(2, 8);
