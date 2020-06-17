@@ -1,10 +1,10 @@
 name: lzstring
-version: 1.0.1+2
+version: 1.0.2
 author: Foster Ho <skipness123@gmail.com>
 description: Dart implementation of lz-string compression algorithm. Originally written in JavaScript, for more details, please refer to http://pieroxy.net/blog/pages/lz-string/index.html
 homepage: https://github.com/skipness/lzstring-dart
 environment:
-  sdk: '>=2.0.0-dev.17.0 <3.0.0'
+  sdk: '>=2.1.0 <3.0.0'
 dependencies:
   typed_data: '^1.0.0'
 dev_dependencies:
