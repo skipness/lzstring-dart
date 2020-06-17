@@ -80,7 +80,7 @@ class LZString {
   /// Can be decompressed with `decompressFromUint8Array`
   static Future<Uint8List> compressToUint8Array(String uncompressed) async {
     String compressed = await compress(uncompressed);
-    return new Future<Uint8List>(() {
+    return Future<Uint8List>(() {
       Uint8List buf = Uint8List(compressed.length * 2);
       for (var i = 0, totalLen = compressed.length; i < totalLen; i++) {
         int currentValue = compressed.codeUnitAt(i);
@@ -133,7 +133,7 @@ class LZString {
 
   static Future<String> _compress(
       String uncompressed, int bitsPerChar, GetCharFromInt getCharFromInt) {
-    return new Future<String>(() {
+    return Future<String>(() {
       if (uncompressed == null) return "";
       int i, value;
       Map<String, int> contextDictionary = Map<String, int>();
@@ -359,7 +359,7 @@ class LZString {
 
   static Future<String> _decompress(
       int length, int resetValue, GetNextValue getNextValue) {
-    return new Future<String>(() {
+    return Future<String>(() {
       Map<int, String> dictionary = Map<int, String>();
       int enLargeIn = 4,
           dictSize = 4,

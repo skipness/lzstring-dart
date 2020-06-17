@@ -1,5 +1,5 @@
 name: lzstring
-version: 1.0.2
+version: 1.0.2+1
 description: Dart implementation of lz-string compression algorithm. Originally written in JavaScript, for more details, please refer to http://pieroxy.net/blog/pages/lz-string/index.html
 homepage: https://github.com/skipness/lzstring-dart
 environment:
