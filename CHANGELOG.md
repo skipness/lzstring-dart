@@ -1,3 +1,7 @@
+## 1.0.2+1
+
+* Remove unnecessary new keyword
+
 ## 1.0.2
 
 * Make compression and decompression asynchronous
