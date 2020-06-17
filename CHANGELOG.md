@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Make compression and decompression asynchronous
+
 ## 1.0.1+2
 
 * Update document comments

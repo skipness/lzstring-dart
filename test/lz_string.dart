@@ -1,14 +1,14 @@
 import 'package:test/test.dart';
 import 'package:lzstring/lzstring.dart';
 
-void main() {
+void main() async {
   final String input = "測試,测试,テスト,testing";
-  final String normal = LZString.compress(input);
-  final String base64 = LZString.compressToBase64(input);
-  final String utf16 = LZString.compressToUTF16(input);
+  final String normal = await LZString.compress(input);
+  final String base64 = await LZString.compressToBase64(input);
+  final String utf16 = await LZString.compressToUTF16(input);
   final String encodedUriComponent =
-      LZString.compressToEncodedURIComponent(input);
-  final List<int> uint8Array = LZString.compressToUint8Array(input);
+      await LZString.compressToEncodedURIComponent(input);
+  final List<int> uint8Array = await LZString.compressToUint8Array(input);
 
   group('compress data', () {
     test('to normal', () {
@@ -69,25 +69,25 @@ void main() {
   });
 
   group('decompress data', () {
-    test('from normal', () {
-      expect(LZString.decompress(normal), equals(input));
+    test('from normal', () async {
+      expect(await LZString.decompress(normal), equals(input));
     });
 
-    test('from base 64', () {
-      expect(LZString.decompressFromBase64(base64), equals(input));
+    test('from base 64', () async {
+      expect(await LZString.decompressFromBase64(base64), equals(input));
     });
 
-    test('from utf 16', () {
-      expect(LZString.decompressFromUTF16(utf16), equals(input));
+    test('from utf 16', () async {
+      expect(await LZString.decompressFromUTF16(utf16), equals(input));
     });
 
-    test('from encoded uri component', () {
-      expect(LZString.decompressFromEncodedURIComponent(encodedUriComponent),
+    test('from encoded uri component', () async {
+      expect(await LZString.decompressFromEncodedURIComponent(encodedUriComponent),
           equals(input));
     });
 
-    test('from uint8 array', () {
-      expect(LZString.decompressFromUint8Array(uint8Array), equals(input));
+    test('from uint8 array', () async {
+      expect(await LZString.decompressFromUint8Array(uint8Array), equals(input));
     });
   });
 }
