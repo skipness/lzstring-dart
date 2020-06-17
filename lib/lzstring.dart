@@ -341,8 +341,9 @@ class LZString {
         if (contextDataPosition == bitsPerChar - 1) {
           contextData.write(getCharFromInt(contextDataVal));
           break;
-        } else
+        } else {
           contextDataPosition++;
+        }
       }
       return contextData.toString();
     });
@@ -498,8 +499,9 @@ class LZString {
         } else {
           if (cc == dictSize) {
             entry = w + w[0];
-          } else
+          } else {
             return null;
+          }
         }
         result.write(entry);
 
